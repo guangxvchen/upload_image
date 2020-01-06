@@ -3,6 +3,7 @@ import os
 import time
 
 from flask import Flask, request, Response
+from werkzeug.utils import secure_filename
 
 from utils.utils_file import isPath, createPath
 from utils.utils_time import timeFormat
@@ -15,7 +16,7 @@ ALLOWED_EXTENSIONS = set(
     ['.bmp', '.jpg', '.png', '.tif', '.gif', '.pcx', '.tga', '.exif', '.fpx', '.svg', '.psd', '.cdr', '.pcd', '.dxf',
      '.ufo', '.eps', '.ai', '.raw', '.WMF', '.webp'])
 TIME_FORMAT = timeFormat('%Y%m%d')
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads\\', TIME_FORMAT)
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads', TIME_FORMAT)
 
 
 @app.route('/ping', methods=['GET'])
@@ -40,7 +41,8 @@ def uploads():
     file = request.files['file']
     if file.filename == '':
         return 'No selected file', 400
-    file_ext = os.path.splitext(file.filename)[-1]
+    # secure_filename 处理文件名带 ././  的文件
+    file_ext = os.path.splitext(secure_filename(file.filename))[-1]
     if file_ext not in ALLOWED_EXTENSIONS:
         return 'Unsupported file type', 415
     filename = '%s%s' % (str(md5.hexdigest()), file_ext)
@@ -50,6 +52,11 @@ def uploads():
     file.save(file_path)
     url = request.url.replace('/uploads', '/') + TIME_FORMAT + '/' + filename
     return url
+
+
+@app.errorhandler(413)
+def error(err):
+    return '文件过大', 413
 
 
 if __name__ == '__main__':
