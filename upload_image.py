@@ -12,8 +12,8 @@ app = Flask(__name__)
 # 文件大小 5M
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 ALLOWED_EXTENSIONS = set(
-    ['bmp', 'jpg', 'png', 'tif', 'gif', 'pcx', 'tga', 'exif', 'fpx', 'svg', 'psd', 'cdr', 'pcd', 'dxf', 'ufo', 'eps',
-     'ai', 'raw', 'WMF', 'webp'])
+    ['.bmp', '.jpg', '.png', '.tif', '.gif', '.pcx', '.tga', '.exif', '.fpx', '.svg', '.psd', '.cdr', '.pcd', '.dxf',
+     '.ufo', '.eps', '.ai', '.raw', '.WMF', '.webp'])
 TIME_FORMAT = timeFormat('%Y%m%d')
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads\\', TIME_FORMAT)
 
