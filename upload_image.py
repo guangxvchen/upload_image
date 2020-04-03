@@ -19,7 +19,7 @@ TIME_FORMAT = timeFormat('%Y%m%d')
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads', TIME_FORMAT)
 
 
-@app.route('/ping', methods=['GET'])
+@app.route('/', methods=['GET'])
 def ping():
     return 'ping successfully!'
 
@@ -29,6 +29,19 @@ def image(name):
     path = "uploads/%s" % name
     resp = Response(open(path, 'rb'), mimetype="image/jpeg")
     return resp
+
+
+@app.route('/qr/<name>', methods=['get'])
+def QR(name):
+    os.system('./cp.sh %s' % name)
+    path = "/root/python/back_msg/%s/main/QR.png" % name
+    while(os.path.exists(path) != True):
+        print('文件不存在 休眠1秒')
+        time.sleep(1)
+        break
+    resp = Response(open(path, 'rb'), mimetype="image/jpeg")
+    return resp
+
 
 
 @app.route('/uploads', methods=['POST'])
@@ -60,4 +73,4 @@ def error(err):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
