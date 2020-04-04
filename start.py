@@ -33,8 +33,10 @@ def image(name):
 
 @app.route('/qr/<name>', methods=['get'])
 def qr(name):
-    os.system('sh /root/python/back_msg/cp.sh %s' % name)
     path = "/root/python/back_msg/%s/main/QR.png" % name
+    if os.path.exists(path):
+        os.system('rm -rf %s' & path)
+    os.system('sh /root/python/back_msg/cp.sh %s' % name)
     while not os.path.exists(path):
         print('文件不存在 休眠1秒')
         time.sleep(1)
@@ -45,8 +47,10 @@ def qr(name):
 
 @app.route('/pure/<name>', methods=['get'])
 def pure(name):
-    os.system('sh /root/python/pure_back_msg/cp.sh %s' % name)
     path = "/root/python/pure_back_msg/%s/main/QR.png" % name
+    if os.path.exists(path):
+        os.system('rm -rf %s' & path)
+    os.system('sh /root/python/pure_back_msg/cp.sh %s' % name)
     while not os.path.exists(path):
         print('文件不存在 休眠1秒')
         time.sleep(1)
