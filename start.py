@@ -32,7 +32,7 @@ def image(name):
 
 
 @app.route('/qr/<name>', methods=['get'])
-def QR(name):
+def qr(name):
     os.system('sh /root/python/back_msg/cp.sh %s' % name)
     path = "/root/python/back_msg/%s/main/QR.png" % name
     while not os.path.exists(path):
@@ -44,7 +44,7 @@ def QR(name):
 
 
 @app.route('/pure/<name>', methods=['get'])
-def QR(name):
+def pure(name):
     os.system('sh /root/python/pure_back_msg/cp.sh %s' % name)
     path = "/root/python/pure_back_msg/%s/main/QR.png" % name
     while not os.path.exists(path):
