@@ -33,15 +33,26 @@ def image(name):
 
 @app.route('/qr/<name>', methods=['get'])
 def QR(name):
-    os.system('./cp.sh %s' % name)
+    os.system('sh /root/python/back_msg/cp.sh %s' % name)
     path = "/root/python/back_msg/%s/main/QR.png" % name
-    while(os.path.exists(path) != True):
+    while not os.path.exists(path):
         print('文件不存在 休眠1秒')
         time.sleep(1)
         break
     resp = Response(open(path, 'rb'), mimetype="image/jpeg")
     return resp
 
+
+@app.route('/pure/<name>', methods=['get'])
+def QR(name):
+    os.system('sh /root/python/pure_back_msg/cp.sh %s' % name)
+    path = "/root/python/pure_back_msg/%s/main/QR.png" % name
+    while not os.path.exists(path):
+        print('文件不存在 休眠1秒')
+        time.sleep(1)
+        break
+    resp = Response(open(path, 'rb'), mimetype="image/jpeg")
+    return resp
 
 
 @app.route('/uploads', methods=['POST'])
