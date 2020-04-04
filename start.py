@@ -24,7 +24,7 @@ def ping():
     return 'ping successfully!'
 
 
-@app.route('/<path:name>', methods=['get'])
+@app.route('/1/<path:name>', methods=['get'])
 def image(name):
     path = "uploads/%s" % name
     resp = Response(open(path, 'rb'), mimetype="image/jpeg")
@@ -33,10 +33,8 @@ def image(name):
 
 @app.route('/qr/<name>', methods=['get'])
 def qr(name):
-    path = "/root/python/back_msg/%s/main/QR.png" % name
-    if os.path.exists(path):
-        os.system('rm -rf %s' & path)
-    os.system('sh /root/python/back_msg/cp.sh %s' % name)
+    os.system('sh /root/python/pure_back_msg/cp.sh {}'.format(name))
+    path = '/root/python/pure_back_msg/{}/main/QR.png'.format(name)
     while not os.path.exists(path):
         print('文件不存在 休眠1秒')
         time.sleep(1)
@@ -47,10 +45,8 @@ def qr(name):
 
 @app.route('/pure/<name>', methods=['get'])
 def pure(name):
-    path = "/root/python/pure_back_msg/%s/main/QR.png" % name
-    if os.path.exists(path):
-        os.system('rm -rf %s' & path)
-    os.system('sh /root/python/pure_back_msg/cp.sh %s' % name)
+    os.system('sh /root/python/pure_back_msg/cp.sh {}'.format(name))
+    path = '/root/python/pure_back_msg/{}/main/QR.png'.format(name)
     while not os.path.exists(path):
         print('文件不存在 休眠1秒')
         time.sleep(1)
